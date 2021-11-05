@@ -18,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author kahani
@@ -55,8 +57,10 @@ public class Clientes implements Serializable {
     @Basic(optional = false)
     @Column(name = "telefono")
     private String telefono;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<BolsaPuntos> bolsaPuntosList;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<UsoPuntos> usoPuntosList;
 

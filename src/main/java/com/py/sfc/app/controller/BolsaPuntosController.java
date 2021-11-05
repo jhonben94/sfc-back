@@ -22,10 +22,11 @@ import com.py.sfc.app.base.PaginadoParam;
 import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.base.Respuesta;
 import com.py.sfc.app.entities.BolsaPuntos;
+import com.py.sfc.app.params.CargarPuntosParam;
 import com.py.sfc.app.services.BolsaPuntosService;
 
 @RestController
-@RequestMapping(value = "/BolsaPuntos")
+@RequestMapping(value = "/bolsa")
 @CrossOrigin(origins = "*")
 public class BolsaPuntosController {
 
@@ -62,7 +63,26 @@ public class BolsaPuntosController {
 		}
 
 	}
+	
 
+	@PostMapping("/cargar-puntos")
+	public ResponseEntity<?> cargarPuntos(@RequestBody CargarPuntosParam param) {
+		Respuesta<BolsaPuntos> respuesta = new Respuesta<>();
+
+		try {
+			service.cargarBolsa(param);
+			respuesta.setDato(null);
+			respuesta.setMensaje(Globales.MensajeCRUD.MENSAJE_AGREGAR);
+			respuesta.setExitoso(true);
+			return new ResponseEntity<Respuesta<?>>(respuesta, HttpStatus.CREATED);
+
+		} catch (Exception e) {
+			respuesta.setMensaje(e.getMessage());
+			respuesta.setExitoso(false);
+			return new ResponseEntity<Respuesta<?>>(respuesta, HttpStatus.CONFLICT);
+		}
+
+	}
 	@PutMapping("/{id}")
 	public ResponseEntity<?> modificarRecurso(@PathVariable("id") Integer id, @RequestBody BolsaPuntos param) {
 		Respuesta<BolsaPuntos> respuesta = new Respuesta<>();

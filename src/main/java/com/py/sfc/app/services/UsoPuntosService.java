@@ -1,7 +1,5 @@
 package com.py.sfc.app.services;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +16,19 @@ import com.py.sfc.app.base.PaginadoParam;
 import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.config.IDAOGenerico;
 import com.py.sfc.app.entities.BolsaPuntos;
-import com.py.sfc.app.params.CargarPuntosParam;
-import com.py.sfc.app.repository.BolsaPuntosRepository;
+import com.py.sfc.app.entities.UsoPuntos;
+import com.py.sfc.app.params.UsarPuntosParam;
+import com.py.sfc.app.repository.UsoPuntosRepository;
 
 @Service
-public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
+public class UsoPuntosService implements IDAOGenerico<UsoPuntos, Integer>{
 	@Autowired
-	private BolsaPuntosRepository repository;
+	private UsoPuntosRepository repository;
+	@Autowired
+	private BolsaPuntosService bolsaService;
 
 	@Override
-	public BolsaPuntos insertarSinClavePrimaria(BolsaPuntos record) throws Exception {
+	public UsoPuntos insertarSinClavePrimaria(UsoPuntos record) throws Exception {
 		repository.save(record);
 		return record;
 	}
@@ -38,33 +39,33 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 	}
 
 	@Override
-	public void modificar(BolsaPuntos record) throws Exception {
+	public void modificar(UsoPuntos record) throws Exception {
 		repository.save(record);
 	}
 
 	@Override
-	public BolsaPuntos obtener(Integer id) throws Exception {
+	public UsoPuntos obtener(Integer id) throws Exception {
 		// TODO Auto-generated method stub
-		BolsaPuntos data = repository.findById(id).orElse(null);
+		UsoPuntos data = repository.findById(id).orElse(null);
 		return data;
 	}
 
 	@Override
-	public List<BolsaPuntos> listar() throws Exception {
+	public List<UsoPuntos> listar() throws Exception {
 		
-		return (List<BolsaPuntos>) repository.findAll();
+		return (List<UsoPuntos>) repository.findAll();
 	}
 
 	@Override
-	public PaginadoResult<BolsaPuntos> listarPaginado(PaginadoParam<BolsaPuntos> param) throws Exception {
+	public PaginadoResult<UsoPuntos> listarPaginado(PaginadoParam<UsoPuntos> param) throws Exception {
 		// TODO Auto-generated method stub
 		
 		
 		ExampleMatcher matcher = ExampleMatcher.matching()
 			    .withStringMatcher(StringMatcher.CONTAINING);
 			
-			Example<BolsaPuntos> example = Example.of(param.getFiltros(),matcher);
-				Page<BolsaPuntos> lista = repository.findAll(example,
+			Example<UsoPuntos> example = Example.of(param.getFiltros(),matcher);
+				Page<UsoPuntos> lista = repository.findAll(example,
 					PageRequest.of(
 							param.getPagina(), 
 							param.getCantidad(), 
@@ -72,7 +73,7 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 									param.getOrderDir().equals("ASC")? Sort.Direction.ASC:Sort.Direction.DESC,
 									param.getOrderBy())
 							));
-					PaginadoResult<BolsaPuntos> result = new PaginadoResult<>(lista);
+					PaginadoResult<UsoPuntos> result = new PaginadoResult<>(lista);
 					return result;
 		
 	}
@@ -88,20 +89,19 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 		// TODO Auto-generated method stub
 		
 	}
-	public void cargarBolsa(CargarPuntosParam param) {
+	public void usarPuntos(UsarPuntosParam param) throws Exception {
+		PaginadoParam<BolsaPuntos> data = new PaginadoParam<>();
+		data.setCantidad(Integer.MAX_VALUE);
+		data.setPagina(1);
+		data.setOrderDir("DESC");
+		data.setOrderBy("fechaAsignacion");
+		BolsaPuntos filtros = new BolsaPuntos();
+		filtros.setCliente(param.getCliente());
 		
-		BolsaPuntos b = new BolsaPuntos();
-		b.setCliente(param.getCliente());
-		Date fecha = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(fecha);
-		cal.add(Calendar.DATE, 15);
-		b.setFechaAsignacionPuntos(fecha);
-		b.setFechaVencimientoPuntos( cal.getTime());
-		b.setMontoOperacion(param.getMontoOperacion());
-		b.setPuntajeUtilizado(0);
-		b.setSaldoPuntos(param.getMontoOperacion());
-		repository.save(b);
+		PaginadoResult<BolsaPuntos> lista = bolsaService.listarPaginado(data);
+		
+		List<BolsaPuntos> bolsas = lista.getLista();
+		
 	}
 
 }
