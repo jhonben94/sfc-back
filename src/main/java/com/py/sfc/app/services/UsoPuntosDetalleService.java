@@ -15,20 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.py.sfc.app.base.PaginadoParam;
 import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.config.IDAOGenerico;
-import com.py.sfc.app.entities.BolsaPuntos;
-import com.py.sfc.app.entities.UsoPuntos;
-import com.py.sfc.app.params.UsarPuntosParam;
-import com.py.sfc.app.repository.UsoPuntosRepository;
+import com.py.sfc.app.entities.UsoPuntosDetalle;
+import com.py.sfc.app.repository.UsoPuntosDetalleRepository;
 
 @Service
-public class UsoPuntosService implements IDAOGenerico<UsoPuntos, Integer>{
+public class UsoPuntosDetalleService implements IDAOGenerico<UsoPuntosDetalle, Integer>{
 	@Autowired
-	private UsoPuntosRepository repository;
-	@Autowired
-	private BolsaPuntosService bolsaService;
+	private UsoPuntosDetalleRepository repository;
 
 	@Override
-	public UsoPuntos insertarSinClavePrimaria(UsoPuntos record) throws Exception {
+	public UsoPuntosDetalle insertarSinClavePrimaria(UsoPuntosDetalle record) throws Exception {
 		repository.save(record);
 		return record;
 	}
@@ -39,33 +35,33 @@ public class UsoPuntosService implements IDAOGenerico<UsoPuntos, Integer>{
 	}
 
 	@Override
-	public void modificar(UsoPuntos record) throws Exception {
+	public void modificar(UsoPuntosDetalle record) throws Exception {
 		repository.save(record);
 	}
 
 	@Override
-	public UsoPuntos obtener(Integer id) throws Exception {
+	public UsoPuntosDetalle obtener(Integer id) throws Exception {
 		// TODO Auto-generated method stub
-		UsoPuntos data = repository.findById(id).orElse(null);
+		UsoPuntosDetalle data = repository.findById(id).orElse(null);
 		return data;
 	}
 
 	@Override
-	public List<UsoPuntos> listar() throws Exception {
+	public List<UsoPuntosDetalle> listar() throws Exception {
 		
-		return (List<UsoPuntos>) repository.findAll();
+		return (List<UsoPuntosDetalle>) repository.findAll();
 	}
 
 	@Override
-	public PaginadoResult<UsoPuntos> listarPaginado(PaginadoParam<UsoPuntos> param) throws Exception {
+	public PaginadoResult<UsoPuntosDetalle> listarPaginado(PaginadoParam<UsoPuntosDetalle> param) throws Exception {
 		// TODO Auto-generated method stub
 		
 		
 		ExampleMatcher matcher = ExampleMatcher.matching()
 			    .withStringMatcher(StringMatcher.CONTAINING);
 			
-			Example<UsoPuntos> example = Example.of(param.getFiltros(),matcher);
-				Page<UsoPuntos> lista = repository.findAll(example,
+			Example<UsoPuntosDetalle> example = Example.of(param.getFiltros(),matcher);
+				Page<UsoPuntosDetalle> lista = repository.findAll(example,
 					PageRequest.of(
 							param.getPagina(), 
 							param.getCantidad(), 
@@ -73,7 +69,7 @@ public class UsoPuntosService implements IDAOGenerico<UsoPuntos, Integer>{
 									param.getOrderDir().equals("ASC")? Sort.Direction.ASC:Sort.Direction.DESC,
 									param.getOrderBy())
 							));
-					PaginadoResult<UsoPuntos> result = new PaginadoResult<>(lista);
+					PaginadoResult<UsoPuntosDetalle> result = new PaginadoResult<>(lista);
 					return result;
 		
 	}
@@ -89,5 +85,5 @@ public class UsoPuntosService implements IDAOGenerico<UsoPuntos, Integer>{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 }

@@ -23,6 +23,7 @@ import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.base.Respuesta;
 import com.py.sfc.app.entities.BolsaPuntos;
 import com.py.sfc.app.params.CargarPuntosParam;
+import com.py.sfc.app.params.UsarPuntosParam;
 import com.py.sfc.app.services.BolsaPuntosService;
 
 @RestController
@@ -33,7 +34,7 @@ public class BolsaPuntosController {
 	@Autowired
 	private BolsaPuntosService service;
 
-	@PostMapping(path = "/paginado")
+	@PostMapping("/paginado")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> listarPaginado(@RequestBody PaginadoParam<BolsaPuntos> param) {
 		try {
@@ -71,6 +72,26 @@ public class BolsaPuntosController {
 
 		try {
 			service.cargarBolsa(param);
+			respuesta.setDato(null);
+			respuesta.setMensaje(Globales.MensajeCRUD.MENSAJE_AGREGAR);
+			respuesta.setExitoso(true);
+			return new ResponseEntity<Respuesta<?>>(respuesta, HttpStatus.CREATED);
+
+		} catch (Exception e) {
+			respuesta.setMensaje(e.getMessage());
+			respuesta.setExitoso(false);
+			return new ResponseEntity<Respuesta<?>>(respuesta, HttpStatus.CONFLICT);
+		}
+
+	}
+	
+	
+	@PostMapping("/usar-puntos")
+	public ResponseEntity<?> usarPuntos(@RequestBody UsarPuntosParam param) {
+		Respuesta<BolsaPuntos> respuesta = new Respuesta<>();
+
+		try {
+			service.usarPuntos(param);
 			respuesta.setDato(null);
 			respuesta.setMensaje(Globales.MensajeCRUD.MENSAJE_AGREGAR);
 			respuesta.setExitoso(true);

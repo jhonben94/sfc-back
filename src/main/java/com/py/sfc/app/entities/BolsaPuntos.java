@@ -49,13 +49,13 @@ public class BolsaPuntos implements Serializable {
     private Date fechaVencimientoPuntos;
     @Basic(optional = false)
     @Column(name = "monto_operacion")
-    private int montoOperacion;
+    private Integer montoOperacion;
     @Basic(optional = false)
     @Column(name = "saldo_puntos")
-    private int saldoPuntos;
+    private Integer saldoPuntos;
     @Basic(optional = false)
     @Column(name = "puntaje_utilizado")
-    private int puntajeUtilizado;
+    private Integer puntajeUtilizado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bolsaPunto")
     private List<UsoPuntosDetalle> usoPuntosDetalleList;
     @JoinColumn(name = "cliente", referencedColumnName = "cliente")
@@ -102,27 +102,27 @@ public class BolsaPuntos implements Serializable {
         this.fechaVencimientoPuntos = fechaVencimientoPuntos;
     }
 
-    public int getMontoOperacion() {
+    public Integer getMontoOperacion() {
         return montoOperacion;
     }
 
-    public void setMontoOperacion(int montoOperacion) {
+    public void setMontoOperacion(Integer montoOperacion) {
         this.montoOperacion = montoOperacion;
     }
 
-    public int getSaldoPuntos() {
+    public Integer getSaldoPuntos() {
         return saldoPuntos;
     }
 
-    public void setSaldoPuntos(int saldoPuntos) {
+    public void setSaldoPuntos(Integer saldoPuntos) {
         this.saldoPuntos = saldoPuntos;
     }
 
-    public int getPuntajeUtilizado() {
+    public Integer getPuntajeUtilizado() {
         return puntajeUtilizado;
     }
 
-    public void setPuntajeUtilizado(int puntajeUtilizado) {
+    public void setPuntajeUtilizado(Integer puntajeUtilizado) {
         this.puntajeUtilizado = puntajeUtilizado;
     }
 
