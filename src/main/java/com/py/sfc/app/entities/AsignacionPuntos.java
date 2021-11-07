@@ -25,6 +25,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "AsignacionPuntos.findAll", query = "SELECT a FROM AsignacionPuntos a")})
 public class AsignacionPuntos implements Serializable {
 
+    @Column(name = "dias_vigencia")
+    private Integer diasVigencia;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,6 +113,14 @@ public class AsignacionPuntos implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.mavenproject1.AsignacionPuntos[ asignacionPunto=" + asignacionPunto + " ]";
+    }
+
+    public Integer getDiasVigencia() {
+        return diasVigencia;
+    }
+
+    public void setDiasVigencia(Integer diasVigencia) {
+        this.diasVigencia = diasVigencia;
     }
     
 }
