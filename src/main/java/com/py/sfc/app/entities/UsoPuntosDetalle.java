@@ -17,8 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  *
  * @author kahani
@@ -38,12 +36,9 @@ public class UsoPuntosDetalle implements Serializable {
     @Basic(optional = false)
     @Column(name = "puntaje_utilizado")
     private int puntajeUtilizado;
-    @JsonIgnore
     @JoinColumn(name = "bolsa_punto", referencedColumnName = "bolsa_punto")
     @ManyToOne(optional = false)
     private BolsaPuntos bolsaPunto;
-    
-    @JsonIgnore
     @JoinColumn(name = "uso_punto", referencedColumnName = "uso_punto")
     @ManyToOne(optional = false)
     private UsoPuntos usoPunto;
