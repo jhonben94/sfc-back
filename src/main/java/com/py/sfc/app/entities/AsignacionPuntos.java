@@ -8,14 +8,10 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
@@ -29,7 +25,6 @@ public class AsignacionPuntos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "asignacion_punto")
     private Integer asignacionPunto;
@@ -109,6 +104,9 @@ public class AsignacionPuntos implements Serializable {
         return true;
     }
 
-
+    @Override
+    public String toString() {
+        return "com.mycompany.mavenproject1.AsignacionPuntos[ asignacionPunto=" + asignacionPunto + " ]";
+    }
     
 }
