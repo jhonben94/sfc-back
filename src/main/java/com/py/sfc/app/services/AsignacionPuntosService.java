@@ -85,5 +85,14 @@ public class AsignacionPuntosService implements IDAOGenerico<AsignacionPuntos, I
 		// TODO Auto-generated method stub
 		
 	}
+	public Integer equivalenciaMonto(Integer monto) {
+		Integer puntos =0;
+		AsignacionPuntos e = repository.equivalenciaMonto(monto);
+		if(e==null) {
+			return 0;
+		}
+		puntos = monto/e.getMontoEquivalencia();
+		return puntos;
+	}
 
 }

@@ -36,6 +36,8 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 	private UsoPuntosDetalleService updService;
 	@Autowired
 	private ConceptoPuntosService cpService;
+	@Autowired
+	private AsignacionPuntosService apService;
 	
 
 	@Override
@@ -100,8 +102,12 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 		// TODO Auto-generated method stub
 		
 	}
-	public void cargarBolsa(CargarPuntosParam param) {
+	public void cargarBolsa(CargarPuntosParam param) throws Exception {
+		Integer puntos = apService.equivalenciaMonto(param.getMontoOperacion());
 		
+		if(puntos==0) {
+			throw new Exception("Monto inferior al minimo para generar 1 punto");
+		}
 		BolsaPuntos b = new BolsaPuntos();
 		b.setCliente(param.getCliente());
 		Date fecha = new Date();
@@ -112,8 +118,12 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 		b.setFechaVencimientoPuntos( cal.getTime());
 		b.setMontoOperacion(param.getMontoOperacion());
 		b.setPuntajeUtilizado(0);
-		b.setSaldoPuntos(param.getMontoOperacion());
+		b.setSaldoPuntos(puntos);
 		repository.save(b);
+	}
+	public Integer equivalenciaPuntos() {
+		
+		return null;
 	}
 	
 	
