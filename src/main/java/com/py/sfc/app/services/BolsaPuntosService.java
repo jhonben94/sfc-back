@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.py.sfc.app.base.PaginadoParam;
 import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.config.IDAOGenerico;
+import com.py.sfc.app.entities.AsignacionPuntos;
 import com.py.sfc.app.entities.BolsaPuntos;
 import com.py.sfc.app.entities.ConceptoPuntos;
 import com.py.sfc.app.entities.UsoPuntos;
@@ -103,7 +104,9 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 		
 	}
 	public void cargarBolsa(CargarPuntosParam param) throws Exception {
-		Integer puntos = apService.equivalenciaMonto(param.getMontoOperacion());
+		AsignacionPuntos equivalencia = apService.equivalenciaMonto(param.getMontoOperacion());
+		Integer puntos =0;
+		puntos = param.getMontoOperacion() / equivalencia.getMontoEquivalencia();
 		
 		if(puntos==0) {
 			throw new Exception("Monto inferior al minimo para generar 1 punto");
@@ -113,7 +116,7 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 		Date fecha = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fecha);
-		cal.add(Calendar.DATE, 15);
+		cal.add(Calendar.DATE, equivalencia.getDiasVigencia());
 		b.setFechaAsignacionPuntos(fecha);
 		b.setFechaVencimientoPuntos( cal.getTime());
 		b.setMontoOperacion(param.getMontoOperacion());
@@ -121,11 +124,7 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 		b.setSaldoPuntos(puntos);
 		repository.save(b);
 	}
-	public Integer equivalenciaPuntos() {
-		
-		return null;
-	}
-	
+
 	
 	public void usarPuntos(UsarPuntosParam param) throws Exception {
 		PaginadoParam<BolsaPuntos> data = new PaginadoParam<>();
@@ -152,7 +151,7 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 			if(puntajeUtilizado ==0) {
 				break;
 			}
-			if(bolsaPuntos.getPuntajeUtilizado() == 0) {
+			if(bolsaPuntos.getSaldoPuntos() == 0) {
 				continue;
 			}
 			System.out.println(bolsaPuntos.getFechaAsignacionPuntos());
@@ -161,14 +160,14 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 			upd.setUsoPunto(usoCab);
 			upd.setBolsaPunto(bolsaPuntos);
 			puntajeAux= bolsaPuntos.getSaldoPuntos()- puntajeUtilizado;
-			if(puntajeAux > 0) {
+			if(puntajeAux >= 0) {
 				bolsaPuntos.setPuntajeUtilizado(puntajeUtilizado);
-				bolsaPuntos.setSaldoPuntos(puntajeUtilizado);
+				bolsaPuntos.setSaldoPuntos(puntajeAux);
 				upd.setPuntajeUtilizado(puntajeUtilizado);
 				updService.insertarSinClavePrimaria(upd);
 				break;
 			}{
-				Integer utilizado = puntajeUtilizado- bolsaPuntos.getSaldoPuntos();
+				Integer utilizado =  bolsaPuntos.getSaldoPuntos();
 				bolsaPuntos.setPuntajeUtilizado(utilizado);
 				bolsaPuntos.setSaldoPuntos(bolsaPuntos.getSaldoPuntos() - utilizado);
 				upd.setPuntajeUtilizado(utilizado);
@@ -179,6 +178,19 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 			modificar(bolsaPuntos);	
 		}
 
+	}
+	public void verificarBolsasVencidas(Date fechaVencimiento) {
+		List<BolsaPuntos> bolsasVencidas = repository.bolsasVencidas(fechaVencimiento);
+		System.out.println("Cant bolsas vencidas: "+bolsasVencidas.size());
+		for (BolsaPuntos bolsaPuntos : bolsasVencidas) {
+			try {
+				bolsaPuntos.setSaldoPuntos(0);
+				modificar(bolsaPuntos);
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 	}
 	
 	public List<BolsaPuntos> listarConFiltros(PaginadoParam<BolsaPuntos> param) throws Exception {

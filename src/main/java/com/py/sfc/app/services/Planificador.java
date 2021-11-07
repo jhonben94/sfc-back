@@ -19,10 +19,12 @@ public class Planificador {
 	    
 		private static final Logger log = LoggerFactory.getLogger(ScheduledTask.class);
 		private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-	    @Scheduled(fixedRate = 5000)
+	    //
+		
+		//@Scheduled(cron ="0 33 13 ? * * ")
+		@Scheduled(fixedRate = 5000)
 	    public void atSchedule() throws InterruptedException {
-	        //bDao.consultaBolsaVencida();
-			//log.info("The time is now {}", dateFormat.format(new Date()));
+	      // bDao.verificarBolsasVencidas( new Date());
 
 	    }
 	    
