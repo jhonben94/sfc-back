@@ -21,9 +21,11 @@ import com.py.sfc.app.base.Globales;
 import com.py.sfc.app.base.PaginadoParam;
 import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.base.Respuesta;
+import com.py.sfc.app.entities.AsignacionPuntos;
 import com.py.sfc.app.entities.BolsaPuntos;
 import com.py.sfc.app.params.CargarPuntosParam;
 import com.py.sfc.app.params.UsarPuntosParam;
+import com.py.sfc.app.services.AsignacionPuntosService;
 import com.py.sfc.app.services.BolsaPuntosService;
 
 @RestController
@@ -33,6 +35,8 @@ public class BolsaPuntosController {
 
 	@Autowired
 	private BolsaPuntosService service;
+	@Autowired
+	private AsignacionPuntosService apService;
 
 	@PostMapping("/paginado")
 	@ResponseStatus(HttpStatus.OK)
@@ -135,6 +139,28 @@ public class BolsaPuntosController {
 				respuesta.setExitoso(false);
 				return new ResponseEntity<Respuesta<?>>(respuesta, HttpStatus.NOT_FOUND);
 			}
+			respuesta.setDato(dato);
+			respuesta.setMensaje(Globales.MensajeCRUD.MENSAJE_OBTENER);
+			respuesta.setExitoso(true);
+			return new ResponseEntity<Respuesta<?>>(respuesta, HttpStatus.OK);
+
+		} catch (Exception e) {
+			respuesta.setMensaje(e.getMessage());
+			respuesta.setExitoso(false);
+			return new ResponseEntity<Respuesta<?>>(respuesta, HttpStatus.CONFLICT);
+		}
+
+	}
+	
+	
+	@GetMapping("/equivalencia-puntos/{monto}")
+	public ResponseEntity<?> equivalenciaPuntos(@PathVariable("monto") Integer monto) {
+		Respuesta<Integer> respuesta = new Respuesta<>();
+
+		try {
+			AsignacionPuntos a = apService.equivalenciaMonto(monto);
+			Integer dato  = monto / a.getMontoEquivalencia();
+			
 			respuesta.setDato(dato);
 			respuesta.setMensaje(Globales.MensajeCRUD.MENSAJE_OBTENER);
 			respuesta.setExitoso(true);

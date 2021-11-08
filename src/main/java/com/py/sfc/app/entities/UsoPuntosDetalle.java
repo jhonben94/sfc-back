@@ -35,7 +35,7 @@ public class UsoPuntosDetalle implements Serializable {
     private Integer usoPuntoDetalle;
     @Basic(optional = false)
     @Column(name = "puntaje_utilizado")
-    private int puntajeUtilizado;
+    private Integer puntajeUtilizado;
     @JoinColumn(name = "bolsa_punto", referencedColumnName = "bolsa_punto")
     @ManyToOne(optional = false)
     private BolsaPuntos bolsaPunto;
@@ -50,7 +50,7 @@ public class UsoPuntosDetalle implements Serializable {
         this.usoPuntoDetalle = usoPuntoDetalle;
     }
 
-    public UsoPuntosDetalle(Integer usoPuntoDetalle, int puntajeUtilizado) {
+    public UsoPuntosDetalle(Integer usoPuntoDetalle, Integer puntajeUtilizado) {
         this.usoPuntoDetalle = usoPuntoDetalle;
         this.puntajeUtilizado = puntajeUtilizado;
     }
@@ -63,7 +63,7 @@ public class UsoPuntosDetalle implements Serializable {
         this.usoPuntoDetalle = usoPuntoDetalle;
     }
 
-    public int getPuntajeUtilizado() {
+    public Integer getPuntajeUtilizado() {
         return puntajeUtilizado;
     }
 
@@ -89,7 +89,7 @@ public class UsoPuntosDetalle implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
+        Integer hash = 0;
         hash += (usoPuntoDetalle != null ? usoPuntoDetalle.hashCode() : 0);
         return hash;
     }

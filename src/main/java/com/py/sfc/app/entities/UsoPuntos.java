@@ -38,7 +38,7 @@ public class UsoPuntos implements Serializable {
     private Integer usoPunto;
     @Basic(optional = false)
     @Column(name = "puntaje_utilizado")
-    private int puntajeUtilizado;
+    private Integer puntajeUtilizado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usoPunto")
     private List<UsoPuntosDetalle> usoPuntosDetalleList;
     @JoinColumn(name = "cliente", referencedColumnName = "cliente")
@@ -55,7 +55,7 @@ public class UsoPuntos implements Serializable {
         this.usoPunto = usoPunto;
     }
 
-    public UsoPuntos(Integer usoPunto, int puntajeUtilizado) {
+    public UsoPuntos(Integer usoPunto, Integer puntajeUtilizado) {
         this.usoPunto = usoPunto;
         this.puntajeUtilizado = puntajeUtilizado;
     }
@@ -68,7 +68,7 @@ public class UsoPuntos implements Serializable {
         this.usoPunto = usoPunto;
     }
 
-    public int getPuntajeUtilizado() {
+    public Integer getPuntajeUtilizado() {
         return puntajeUtilizado;
     }
 
@@ -102,7 +102,7 @@ public class UsoPuntos implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
+        Integer hash = 0;
         hash += (usoPunto != null ? usoPunto.hashCode() : 0);
         return hash;
     }

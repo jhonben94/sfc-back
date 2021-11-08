@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author kahani
@@ -56,6 +58,7 @@ public class BolsaPuntos implements Serializable {
     @Basic(optional = false)
     @Column(name = "puntaje_utilizado")
     private Integer puntajeUtilizado;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bolsaPunto")
     private List<UsoPuntosDetalle> usoPuntosDetalleList;
     @JoinColumn(name = "cliente", referencedColumnName = "cliente")

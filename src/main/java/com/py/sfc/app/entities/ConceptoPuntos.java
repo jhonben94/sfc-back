@@ -39,7 +39,7 @@ public class ConceptoPuntos implements Serializable {
     private String descripcionConcepto;
     @Basic(optional = false)
     @Column(name = "puntos_requeridos")
-    private int puntosRequeridos;
+    private Integer  puntosRequeridos;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptoPunto")
     private List<UsoPuntos> usoPuntosList;
 
@@ -50,7 +50,7 @@ public class ConceptoPuntos implements Serializable {
         this.conceptoPunto = conceptoPunto;
     }
 
-    public ConceptoPuntos(Integer conceptoPunto, String descripcionConcepto, int puntosRequeridos) {
+    public ConceptoPuntos(Integer conceptoPunto, String descripcionConcepto, Integer  puntosRequeridos) {
         this.conceptoPunto = conceptoPunto;
         this.descripcionConcepto = descripcionConcepto;
         this.puntosRequeridos = puntosRequeridos;
@@ -72,7 +72,7 @@ public class ConceptoPuntos implements Serializable {
         this.descripcionConcepto = descripcionConcepto;
     }
 
-    public int getPuntosRequeridos() {
+    public Integer  getPuntosRequeridos() {
         return puntosRequeridos;
     }
 
@@ -89,8 +89,8 @@ public class ConceptoPuntos implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
+    public int  hashCode() {
+        Integer  hash = 0;
         hash += (conceptoPunto != null ? conceptoPunto.hashCode() : 0);
         return hash;
     }

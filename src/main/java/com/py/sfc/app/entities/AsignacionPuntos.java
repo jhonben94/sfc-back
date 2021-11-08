@@ -36,13 +36,13 @@ public class AsignacionPuntos implements Serializable {
     private Integer asignacionPunto;
     @Basic(optional = false)
     @Column(name = "limite_inferior")
-    private int limiteInferior;
+    private Integer limiteInferior;
     @Basic(optional = false)
     @Column(name = "limite_superior")
-    private int limiteSuperior;
+    private Integer limiteSuperior;
     @Basic(optional = false)
     @Column(name = "monto_equivalencia")
-    private int montoEquivalencia;
+    private Integer montoEquivalencia;
 
     public AsignacionPuntos() {
     }
@@ -51,7 +51,7 @@ public class AsignacionPuntos implements Serializable {
         this.asignacionPunto = asignacionPunto;
     }
 
-    public AsignacionPuntos(Integer asignacionPunto, int limiteInferior, int limiteSuperior, int montoEquivalencia) {
+    public AsignacionPuntos(Integer asignacionPunto, Integer limiteInferior, Integer limiteSuperior, Integer montoEquivalencia) {
         this.asignacionPunto = asignacionPunto;
         this.limiteInferior = limiteInferior;
         this.limiteSuperior = limiteSuperior;
@@ -66,27 +66,27 @@ public class AsignacionPuntos implements Serializable {
         this.asignacionPunto = asignacionPunto;
     }
 
-    public int getLimiteInferior() {
+    public Integer getLimiteInferior() {
         return limiteInferior;
     }
 
-    public void setLimiteInferior(int limiteInferior) {
+    public void setLimiteInferior(Integer limiteInferior) {
         this.limiteInferior = limiteInferior;
     }
 
-    public int getLimiteSuperior() {
+    public Integer getLimiteSuperior() {
         return limiteSuperior;
     }
 
-    public void setLimiteSuperior(int limiteSuperior) {
+    public void setLimiteSuperior(Integer limiteSuperior) {
         this.limiteSuperior = limiteSuperior;
     }
 
-    public int getMontoEquivalencia() {
+    public Integer getMontoEquivalencia() {
         return montoEquivalencia;
     }
 
-    public void setMontoEquivalencia(int montoEquivalencia) {
+    public void setMontoEquivalencia(Integer montoEquivalencia) {
         this.montoEquivalencia = montoEquivalencia;
     }
 
