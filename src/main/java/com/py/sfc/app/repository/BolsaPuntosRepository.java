@@ -9,12 +9,23 @@ import org.springframework.stereotype.Repository;
 
 import com.py.sfc.app.entities.AsignacionPuntos;
 import com.py.sfc.app.entities.BolsaPuntos;
+import com.py.sfc.app.entities.Clientes;
 @Repository
 public interface BolsaPuntosRepository extends JpaRepository<BolsaPuntos, Integer>{
 	List<BolsaPuntos> findByFechaVencimientoPuntos(Date fechaVencimientoPuntos);
 	
-	@Query(value = "SELECT u "
+	@Query(value = " SELECT u "
 			+ "FROM BolsaPuntos u "
 			+ "where ?1 = u.fechaVencimientoPuntos  and u.saldoPuntos <> 0")
 	List<BolsaPuntos> bolsasVencidas(Date fechaVencimiento);
+	
+	@Query(value = " SELECT DISTINCT(u.cliente) "
+			+ "FROM BolsaPuntos u "
+			+ "where u.fechaVencimientoPuntos  BETWEEN ?1 AND ?2")
+	List<Clientes> bolsasPorVencer(Date fechaIni, Date fechaFin);
+	
+	@Query(value = " SELECT u "
+			+ "FROM BolsaPuntos u "
+			+ "where u.cliente.cliente =?1 AND u.saldoPuntos BETWEEN ?2 AND ?3")
+	List<BolsaPuntos> bolsasConsulta(Integer cliente, Integer ini, Integer fin);
 }

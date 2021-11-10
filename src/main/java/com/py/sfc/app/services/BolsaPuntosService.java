@@ -19,6 +19,7 @@ import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.config.IDAOGenerico;
 import com.py.sfc.app.entities.AsignacionPuntos;
 import com.py.sfc.app.entities.BolsaPuntos;
+import com.py.sfc.app.entities.Clientes;
 import com.py.sfc.app.entities.ConceptoPuntos;
 import com.py.sfc.app.entities.UsoPuntos;
 import com.py.sfc.app.entities.UsoPuntosDetalle;
@@ -209,6 +210,13 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 							));
 					return (List<BolsaPuntos> ) lista.getContent();
 		
+	}
+	
+	public List<Clientes> clientesConPuntosVenc (Date fechaIni, Date fechaFin){
+		return repository.bolsasPorVencer(fechaIni, fechaFin);
+	}
+	public List<BolsaPuntos> bolsasConsulta(Integer cliente,Integer ini, Integer fin){
+		return repository.bolsasConsulta(cliente, ini, fin);
 	}
 
 
