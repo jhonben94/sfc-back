@@ -85,7 +85,7 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 							param.getPagina(), 
 							param.getCantidad(), 
 							Sort.by(
-									param.getOrderDir().equals("ASC")? Sort.Direction.ASC:Sort.Direction.DESC,
+									param.getOrderDir().toUpperCase().equals("ASC")? Sort.Direction.ASC:Sort.Direction.DESC,
 									param.getOrderBy())
 							));
 					PaginadoResult<BolsaPuntos> result = new PaginadoResult<>(lista);
@@ -167,7 +167,7 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 				upd.setPuntajeUtilizado(puntajeUtilizado);
 				updService.insertarSinClavePrimaria(upd);
 				break;
-			}{
+			}else{
 				Integer utilizado =  bolsaPuntos.getSaldoPuntos();
 				bolsaPuntos.setPuntajeUtilizado(utilizado);
 				bolsaPuntos.setSaldoPuntos(bolsaPuntos.getSaldoPuntos() - utilizado);

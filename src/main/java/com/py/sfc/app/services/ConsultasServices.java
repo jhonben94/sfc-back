@@ -9,12 +9,18 @@ import org.springframework.stereotype.Service;
 
 import com.py.sfc.app.entities.BolsaPuntos;
 import com.py.sfc.app.entities.Clientes;
+import com.py.sfc.app.entities.UsoPuntos;
 
 @Service
 public class ConsultasServices {
 	@Autowired
 	private BolsaPuntosService bservice;
-	public void obtenerPuntos() {}
+	@Autowired
+	private UsoPuntosService upuntoService;
+	public List<UsoPuntos> obtenerUsoPuntos(Integer cliente, Integer concepto) {
+		//return upuntoService.listarPaginado(null);
+		return null;
+	}
 	public List<Clientes> obtenerClientes(Integer cantDias) {
 		Date hoy = new Date();
 		Calendar cal = Calendar.getInstance();

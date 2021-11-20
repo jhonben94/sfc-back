@@ -5,6 +5,7 @@
 package com.py.sfc.app.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -57,6 +59,13 @@ public class Clientes implements Serializable {
     @Basic(optional = false)
     @Column(name = "telefono")
     private String telefono;
+    
+    @Column(name = "prefijo")
+    private String prefijo;
+    
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @Column(name = "fecha_nacimiento")
+    private Date fechaNacimiento;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<BolsaPuntos> bolsaPuntosList;
@@ -82,7 +91,25 @@ public class Clientes implements Serializable {
         this.telefono = telefono;
     }
 
-    public Integer getCliente() {
+    
+    
+    public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public String getPrefijo() {
+		return prefijo;
+	}
+
+	public void setPrefijo(String prefijo) {
+		this.prefijo = prefijo;
+	}
+
+	public Integer getCliente() {
         return cliente;
     }
 

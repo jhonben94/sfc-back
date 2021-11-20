@@ -23,6 +23,7 @@ import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.base.Respuesta;
 import com.py.sfc.app.entities.BolsaPuntos;
 import com.py.sfc.app.entities.Clientes;
+import com.py.sfc.app.entities.UsoPuntos;
 import com.py.sfc.app.services.ClientesService;
 import com.py.sfc.app.services.ConsultasServices;
 
@@ -54,6 +55,19 @@ public class ConsultasController {
 		try {
 			List<BolsaPuntos> lista = service.bolsaDePuntos(cliente,ini,fin);
 			return new ResponseEntity<List<BolsaPuntos>>(lista, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
+	}
+	
+	@GetMapping(path = "/puntos/{cliente}/{concepto}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<?> bolsaPuntos(@PathVariable("cliente") Integer cliente,
+			@PathVariable("concepto") Integer concepto) {
+		try {
+			List<UsoPuntos> lista = service.obtenerUsoPuntos(cliente,concepto);
+			return new ResponseEntity<List<UsoPuntos>>(lista, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
