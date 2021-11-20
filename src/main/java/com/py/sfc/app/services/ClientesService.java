@@ -66,7 +66,7 @@ public class ClientesService implements IDAOGenerico<Clientes, Integer>{
 							param.getPagina(), 
 							param.getCantidad(), 
 							Sort.by(
-									param.getOrderDir().equals("ASC")? Sort.Direction.ASC:Sort.Direction.DESC,
+									param.getOrderDir().toUpperCase().equals("ASC")? Sort.Direction.ASC:Sort.Direction.DESC,
 									param.getOrderBy())
 							));
 					PaginadoResult<Clientes> result = new PaginadoResult<>(lista);

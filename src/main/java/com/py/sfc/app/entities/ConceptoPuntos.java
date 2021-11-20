@@ -18,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author kahani
@@ -40,6 +42,7 @@ public class ConceptoPuntos implements Serializable {
     @Basic(optional = false)
     @Column(name = "puntos_requeridos")
     private Integer  puntosRequeridos;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptoPunto")
     private List<UsoPuntos> usoPuntosList;
 
