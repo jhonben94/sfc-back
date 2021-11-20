@@ -19,13 +19,19 @@ public interface BolsaPuntosRepository extends JpaRepository<BolsaPuntos, Intege
 			+ "where ?1 = u.fechaVencimientoPuntos  and u.saldoPuntos <> 0")
 	List<BolsaPuntos> bolsasVencidas(Date fechaVencimiento);
 	
-	@Query(value = " SELECT DISTINCT(u.cliente) "
+	@Query(value = " SELECT DISTINCT u "
 			+ "FROM BolsaPuntos u "
-			+ "where u.fechaVencimientoPuntos  BETWEEN ?1 AND ?2")
-	List<Clientes> bolsasPorVencer(Date fechaIni, Date fechaFin);
+			+ "where u.fechaVencimientoPuntos  BETWEEN ?1 AND ?2 and u.saldoPuntos >0")
+	List<BolsaPuntos> bolsasPorVencer(Date fechaIni, Date fechaFin);
 	
 	@Query(value = " SELECT u "
 			+ "FROM BolsaPuntos u "
 			+ "where u.cliente.cliente =?1 AND u.saldoPuntos BETWEEN ?2 AND ?3")
 	List<BolsaPuntos> bolsasConsulta(Integer cliente, Integer ini, Integer fin);
+	
+	@Query(value = " SELECT SUM(u.saldoPuntos) "
+			+ "FROM BolsaPuntos u "
+			+ "where u.cliente.cliente =?1 ")
+	Integer bolsasConsultaSaldo(Integer cliente);
+	
 }

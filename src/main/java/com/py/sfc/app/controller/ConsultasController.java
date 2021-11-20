@@ -21,11 +21,15 @@ import com.py.sfc.app.base.Globales;
 import com.py.sfc.app.base.PaginadoParam;
 import com.py.sfc.app.base.PaginadoResult;
 import com.py.sfc.app.base.Respuesta;
+import com.py.sfc.app.entities.AsignacionPuntos;
 import com.py.sfc.app.entities.BolsaPuntos;
 import com.py.sfc.app.entities.Clientes;
+import com.py.sfc.app.entities.ConceptoPuntos;
 import com.py.sfc.app.entities.UsoPuntos;
+import com.py.sfc.app.params.BolsasConsultaParam;
 import com.py.sfc.app.services.ClientesService;
 import com.py.sfc.app.services.ConsultasServices;
+import com.py.sfc.app.services.UsoPuntosService;
 
 @RestController
 @RequestMapping(value = "/consultas")
@@ -34,26 +38,27 @@ public class ConsultasController {
 
 	@Autowired
 	private ConsultasServices service;
+	
+	@Autowired
+	private UsoPuntosService usoService;
 
 	@GetMapping(path = "/puntos-vencer/{cantDias}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> listarPaginado(@PathVariable("cantDias") Integer cantDias) {
 		try {
-			List<Clientes> lista = service.obtenerClientes(cantDias);
-			return new ResponseEntity<List<Clientes>>(lista, HttpStatus.OK);
+			List<BolsaPuntos> lista = service.obtenerClientes(cantDias);
+			return new ResponseEntity<List<BolsaPuntos>>(lista, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
 	}
 
-	@GetMapping(path = "/bolsas/{cliente}/{ini}/{fin}")
+	@PostMapping(path = "/bolsas/")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<?> bolsaPuntos(@PathVariable("cliente") Integer cliente,
-			@PathVariable("ini") Integer ini,
-			@PathVariable("fin") Integer fin) {
+	public ResponseEntity<?> bolsaPuntos(@RequestBody BolsasConsultaParam param) {
 		try {
-			List<BolsaPuntos> lista = service.bolsaDePuntos(cliente,ini,fin);
+			List<BolsaPuntos> lista = service.bolsaDePuntos(param.getCliente().getCliente(),param.getMontoIni(),param.getMontoFin());
 			return new ResponseEntity<List<BolsaPuntos>>(lista, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,12 +66,12 @@ public class ConsultasController {
 		}
 	}
 	
-	@GetMapping(path = "/puntos/{cliente}/{concepto}")
+	@PostMapping(path = "/puntos/")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<?> bolsaPuntos(@PathVariable("cliente") Integer cliente,
-			@PathVariable("concepto") Integer concepto) {
+	public ResponseEntity<?> bolsaPuntos( @RequestBody UsoPuntos param) {
 		try {
-			List<UsoPuntos> lista = service.obtenerUsoPuntos(cliente,concepto);
+		
+			List<UsoPuntos> lista = usoService.listarByExample(param);
 			return new ResponseEntity<List<UsoPuntos>>(lista, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

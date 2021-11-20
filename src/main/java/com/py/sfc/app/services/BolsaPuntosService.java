@@ -128,6 +128,11 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 
 	
 	public void usarPuntos(UsarPuntosParam param) throws Exception {
+		Integer puntos = repository.bolsasConsultaSaldo( param.getCliente().getCliente());
+		if(puntos==0) {
+			throw new Exception("El cliente no cuenta con suficientes puntos para el canje.Total puntos del cliente: " + puntos);
+		}
+		
 		PaginadoParam<BolsaPuntos> data = new PaginadoParam<>();
 		data.setCantidad(Integer.MAX_VALUE);
 		data.setPagina(0);
@@ -141,6 +146,10 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 		ConceptoPuntos concepto = cpService.obtener(param.getConcepto().getConceptoPunto());
 		
 		Integer puntajeUtilizado = concepto.getPuntosRequeridos();
+		
+		if(puntajeUtilizado>puntos) {
+			throw new Exception("El cliente no cuenta con suficientes puntos para el canje. Total puntos del cliente: " + puntos);
+		}
 		Integer puntajeAux =0;
 		UsoPuntos usoCab = new UsoPuntos();
 		usoCab.setCliente(param.getCliente());
@@ -212,7 +221,7 @@ public class BolsaPuntosService implements IDAOGenerico<BolsaPuntos, Integer>{
 		
 	}
 	
-	public List<Clientes> clientesConPuntosVenc (Date fechaIni, Date fechaFin){
+	public List<BolsaPuntos> clientesConPuntosVenc (Date fechaIni, Date fechaFin){
 		return repository.bolsasPorVencer(fechaIni, fechaFin);
 	}
 	public List<BolsaPuntos> bolsasConsulta(Integer cliente,Integer ini, Integer fin){

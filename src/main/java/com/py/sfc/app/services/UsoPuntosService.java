@@ -21,7 +21,7 @@ import com.py.sfc.app.params.UsarPuntosParam;
 import com.py.sfc.app.repository.UsoPuntosRepository;
 
 @Service
-public class UsoPuntosService implements IDAOGenerico<UsoPuntos, Integer>{
+public class UsoPuntosService implements IDAOGenerico<UsoPuntos, Integer> {
 	@Autowired
 	private UsoPuntosRepository repository;
 	@Autowired
@@ -52,42 +52,48 @@ public class UsoPuntosService implements IDAOGenerico<UsoPuntos, Integer>{
 
 	@Override
 	public List<UsoPuntos> listar() throws Exception {
-		
+
 		return (List<UsoPuntos>) repository.findAll();
 	}
 
 	@Override
 	public PaginadoResult<UsoPuntos> listarPaginado(PaginadoParam<UsoPuntos> param) throws Exception {
 		// TODO Auto-generated method stub
-		
-		
-		ExampleMatcher matcher = ExampleMatcher.matching()
-			    .withStringMatcher(StringMatcher.CONTAINING);
-			
-			Example<UsoPuntos> example = Example.of(param.getFiltros(),matcher);
-				Page<UsoPuntos> lista = repository.findAll(example,
-					PageRequest.of(
-							param.getPagina(), 
-							param.getCantidad(), 
-							Sort.by(
-									param.getOrderDir().equals("ASC")? Sort.Direction.ASC:Sort.Direction.DESC,
-									param.getOrderBy())
-							));
-					PaginadoResult<UsoPuntos> result = new PaginadoResult<>(lista);
-					return result;
-		
+
+		ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(StringMatcher.CONTAINING);
+
+		Example<UsoPuntos> example = Example.of(param.getFiltros(), matcher);
+		Page<UsoPuntos> lista = repository.findAll(example, PageRequest.of(param.getPagina(), param.getCantidad(), Sort
+				.by(param.getOrderDir().equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, param.getOrderBy())));
+		PaginadoResult<UsoPuntos> result = new PaginadoResult<>(lista);
+		return result;
+
 	}
 
 	@Override
 	public void activar(Integer id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void descactivar(Integer id) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
+	public Integer cantidadPuntos(Integer clie, Integer concepto) {
+
+		return repository.contar(clie, concepto);
+	}
+
+	public List<UsoPuntos> listarByExample(UsoPuntos param) {
+		ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(StringMatcher.CONTAINING);
+
+		Example<UsoPuntos> example = Example.of(param, matcher);
+		List<UsoPuntos> lista = repository.findAll(example);
+
+		return lista;
+
+	}
 }

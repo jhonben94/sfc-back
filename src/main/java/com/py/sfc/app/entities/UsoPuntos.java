@@ -5,6 +5,7 @@
 package com.py.sfc.app.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -19,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -39,11 +42,20 @@ public class UsoPuntos implements Serializable {
     @Basic(optional = false)
     @Column(name = "puntaje_utilizado")
     private Integer puntajeUtilizado;
+    
+    @Column(name = "fecha")
+    private Date fecha;
+    
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usoPunto")
     private List<UsoPuntosDetalle> usoPuntosDetalleList;
+    
+ 
     @JoinColumn(name = "cliente", referencedColumnName = "cliente")
     @ManyToOne(optional = false)
     private Clientes cliente;
+    
+  
     @JoinColumn(name = "concepto_punto", referencedColumnName = "concepto_punto")
     @ManyToOne(optional = false)
     private ConceptoPuntos conceptoPunto;
@@ -60,7 +72,20 @@ public class UsoPuntos implements Serializable {
         this.puntajeUtilizado = puntajeUtilizado;
     }
 
-    public Integer getUsoPunto() {
+    
+    public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public void setPuntajeUtilizado(Integer puntajeUtilizado) {
+		this.puntajeUtilizado = puntajeUtilizado;
+	}
+
+	public Integer getUsoPunto() {
         return usoPunto;
     }
 
